@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Incluye la biblioteca Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        #candlestick-chart {
+          width: 70%; /* Ancho deseado */
+          height: 45em; /* Alto deseado */
+        }
+      </style>
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" action="/search">
+        <input type="text" name="stock-search">
+        <button type="submit">Search</button>
+    </form>
+    <button><a href="/login">INICIAR SESIÓN</a></button>
+    <button><a href="/register">REGISTRARSE</a></button>
+    <h1>BIENVENIDO A LILMARCIAL</h1>
+
+    <div id="candlestick-chart"></div>
+    <div id="info" style="display: none;">{{stock_data}}</div>
+    <div id="info-name" style="display: none;">{{name}}</div>
+
+
+    
+    <script>
+        
+        // Obtén el elemento HTML que contiene la información JSON
+        var stockDataJson = document.getElementById("info").textContent;
+        var nameStock = document.getElementById("info-name").textContent;
+
+        // Analiza la cadena JSON para convertirla en un objeto JavaScript
+        var stockDataObj = JSON.parse(stockDataJson);
+
+        // Ahora puedes acceder a stockDataObj como un objeto JavaScript
+        console.log(stockDataObj);
+                
+        // Prepara los datos para el gráfico de velas
+        var trace = {
+            x: stockDataObj.map(function(item) { return item.Date; }),
+            open: stockDataObj.map(function(item) { return item.Open; }),
+            high: stockDataObj.map(function(item) { return item.High; }),
+            low: stockDataObj.map(function(item) { return item.Low; }),
+            close: stockDataObj.map(function(item) { return item.Close; }),
+            type: 'candlestick',
+            xaxis: 'x',
+            yaxis: 'y'
+        };
+        
+        var layout = {
+            title: 'Gráfico de Velas para ' + nameStock,
+            xaxis: {
+                title: 'Fecha',
+                rangeslider: {
+                    visible: false
+                }
+            },
+            yaxis: {
+                title: 'Precio',
+                autorange: true
+            }
+        };
+        
+        // Crea el gráfico de velas
+        Plotly.newPlot('candlestick-chart', [trace], layout);
+    </script>
+
+</body>
+</html>
