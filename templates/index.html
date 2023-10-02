@@ -19,11 +19,16 @@
         <input type="text" name="stock-search">
         <button type="submit">Search</button>
     </form>
+
     <button><a href="/login">INICIAR SESIÓN</a></button>
     <button><a href="/register">REGISTRARSE</a></button>
+    
     <h1>BIENVENIDO A LILMARCIAL</h1>
-
+    
+    <!-- Div en donde se mostrará el gráfico de velas -->
     <div id="candlestick-chart"></div>
+
+    <!-- Recibo la información de Python -->
     <div id="info" style="display: none;">{{stock_data}}</div>
     <div id="info-name" style="display: none;">{{name}}</div>
 

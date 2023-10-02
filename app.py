@@ -20,6 +20,7 @@ def login():
 def register():
     return render_template("sesion/register.html") 
 
+# Search Stock
 @app.route("/search", methods=['POST'])
 def search_stock():
     stock = request.form['stock-search']
