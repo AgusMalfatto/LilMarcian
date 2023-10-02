@@ -1,12 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for
-from controlador import connect as cnt
+from controlador.connect import Stock
 
 app = Flask(__name__)
+
+stock = Stock()
 
 # HomePage
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    stock_data = cnt.get_stock()
+    stock_data = stock.get_stock_json()
     
     return render_template("index.html", stock_data=stock_data, name="Apple")
 
@@ -22,9 +24,12 @@ def register():
 
 @app.route("/search", methods=['POST'])
 def search_stock():
-    stock = request.form['stock-search']
-    stock_data = cnt.get_stock(stock)
-    return render_template("index.html", stock_data=stock_data, name=stock)
+    stock_search = request.form['stock-search']
+    stock.symbol = stock_search
+    stock_data = stock.get_stock_json()
+    return render_template("index.html", stock_data=stock_data, name=stock.symbol)
+
+
 
 # Start App
 if __name__ == '__main__':
