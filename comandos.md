@@ -24,3 +24,15 @@ git commit -m "Comentario descriptivo de los cambios realizados"
 ```Console
 git push origin master
 ```
+
+
+# Comandos pip
+Agregar dependencias instaladas en el env
+```Pip
+pip freeze > requirements.txt
+```
+
+Instalar nuevas dependencias
+```Pip
+pip install -r requirements.txt
+```
