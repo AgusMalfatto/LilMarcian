@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from controlador.connect import Stock
+from framework.Stock import Stock
 
 app = Flask(__name__)
 
