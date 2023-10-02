@@ -26,13 +26,25 @@ git push origin master
 ```
 
 
-# Comandos pip
-Agregar dependencias instaladas en el env
-```Pip
+# Comandos Python
+* Crear entorno virtual (env es el nombre del environment)
+```Console
+python -m venv env
+```
+
+* Accediendo al entorno virtual (env) (Desde windows)
+```Console
+.\env\Scripts\activate
+```
+
+
+* Agregar dependencias instaladas en el env
+```Console
 pip freeze > requirements.txt
 ```
 
-Instalar nuevas dependencias
-```Pip
+* Instalar nuevas dependencias
+```Console
 pip install -r requirements.txt
 ```
+
