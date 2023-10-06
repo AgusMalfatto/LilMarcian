@@ -8,7 +8,7 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         #candlestick-chart {
-          width: 70%; /* Ancho deseado */
+          width: 90%; /* Ancho deseado */
           height: 45em; /* Alto deseado */
         }
       </style>
@@ -45,10 +45,14 @@
 
         // Ahora puedes acceder a stockDataObj como un objeto JavaScript
         console.log(stockDataObj);
-                
+        var fecha, fechaClean;
         // Prepara los datos para el gráfico de velas
         var trace = {
-            x: stockDataObj.map(function(item) { return item.Date; }),
+            x: stockDataObj.map(function(item) { 
+                fecha = new Date(item.Date);
+                fechaClean = fecha.getFullYear() + "-" + (fecha.getMonth() + 1)  + "-" + fecha.getDate();
+                return fechaClean; 
+            }),
             open: stockDataObj.map(function(item) { return item.Open; }),
             high: stockDataObj.map(function(item) { return item.High; }),
             low: stockDataObj.map(function(item) { return item.Low; }),
@@ -62,6 +66,9 @@
             title: 'Gráfico de Velas para ' + nameStock,
             xaxis: {
                 title: 'Fecha',
+                type: 'category', // Esto fuerza a Plotly a tratar las fechas como categorías
+                tickangle: -45, // Gira los textos de las fechas para que sean legibles
+                showline: true, // Muestra la línea del eje x
                 rangeslider: {
                     visible: false
                 }

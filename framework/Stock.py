@@ -34,7 +34,7 @@ class Stock:
         return stock_data_json
     
 
-    def get_historical_data(self, period="2y") -> pd.DataFrame:
+    def get_historical_data(self, period="5y") -> pd.DataFrame:
         """Obtiene datos históricos de precios para una acción.
 
         Args:
