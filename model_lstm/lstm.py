@@ -13,12 +13,23 @@ from sklearn.preprocessing import StandardScaler
 
 
 # Consulto historial y agrego la media movil de 10
-data = yf.download("TSLA", start='2019-09-18', end='2023-09-18')
+data = yf.download("TSLA", start='2010-09-18', end='2023-09-18')
 df = pd.DataFrame(data)
 df['SMA_10'] = df['Close'].rolling(window=10).mean()
 df.dropna(subset=['SMA_10'], inplace=True)
 df.reset_index(inplace=True)
 
+
+
+""""   CREACIÓN DE LA RED NEURONAL   """
+
+
+
+
+
+
+
+""" 
 # Seleccionar características y etiquetas
 features = df[['SMA_10']]
 labels = df['SMA_10']
@@ -34,9 +45,6 @@ X_test = scaler.transform(X_test)
 # Reshape de los datos para ser compatibles con LSTM
 X_train = X_train.reshape(X_train.shape[0], X_train.shape[1], 1)
 X_test = X_test.reshape(X_test.shape[0], X_test.shape[1], 1)
-
-
-""""   CREACIÓN DE LA RED NEURONAL   """
 
 
 # Creo la Red Neuronal
@@ -58,7 +66,8 @@ test_loss = model.evaluate(X_test, y_test)
 print(f'Pérdida de datos de prueba: {test_loss}') 
 
 
-"""   PREDICCIONES   """
+"""   #PREDICCIONES
+"""
 
 
 dfPredict = df[len(df)-10:len(df)]
@@ -72,4 +81,4 @@ array_input = np.array(dfPredict['SMA_10_normalized'])
 array_input = array_input.reshape(1, 10, 1)
 #print(array_input)
 predict_values = model.predict(array_input)
-print(f"Predicción para valores futuros: {predict_values}")
+print(f"Predicción para valores futuros: {predict_values}") """
