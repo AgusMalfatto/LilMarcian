@@ -29,6 +29,8 @@ instructions = [
             date_prediction TIMESTAMP NOT NULL,
             price_created FLOAT NOT NULL,
             price_prediction FLOAT NOT NULL,
+            FOREIGN KEY (id_user) REFERENCES users(id),
+            FOREIGN KEY (symbol) REFERENCES stocks(symbol)
         );
     """
 ]
