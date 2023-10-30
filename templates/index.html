@@ -20,8 +20,8 @@
         <button type="submit">Search</button>
     </form>
 
-    <button><a href="/login">INICIAR SESIÓN</a></button>
-    <button><a href="/register">REGISTRARSE</a></button>
+    <button><a href="{{ url_for('auth.login') }}">INICIAR SESIÓN</a></button>
+    <button><a href="{{ url_for('auth.register') }}">REGISTRARSE</a></button>
     
     <h1>BIENVENIDO A LILMARCIAL</h1>
     
