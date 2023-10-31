@@ -13,6 +13,12 @@ from app.db import get_db
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Maneja el registro de nuevos usuarios.
+
+    Returns:
+        Redirige a la vista de login ('auth.login') si el registro es exitoso.
+    """
     if request.method == 'POST':
         username = request.form['username']
         email = request.form['email']
@@ -44,6 +50,11 @@ def register():
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    """Gestiona el logeo del usuario
+
+    Returns:
+        En caso que el login sea exitoso returna la plantilla de index.
+    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -71,6 +82,9 @@ def login():
 
 @auth_bp.before_app_request
 def load_logged_in_user():
+    """
+    Carga la información del usuario autenticado en el contexto global.
+    """
     user_id = session.get('user_id')
 
     if user_id is None:
@@ -85,6 +99,15 @@ def load_logged_in_user():
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
+        """Requiere autenticación para acceder a una vista.
+
+        Args:
+            view (función): La vista a proteger con autenticación.
+
+        Returns:
+            Si el usuario no está autenticado, redirige a la vista de inicio de sesión ('auth.login').
+            Si el usuario está autenticado, permite el acceso a la vista protegida.
+        """
         if g.user is None:
             return redirect(url_for('auth.login'))
         return view(**kwargs)
@@ -93,6 +116,9 @@ def login_required(view):
     
 @auth_bp.route('/logout')
 def logout():
+    """
+    Cierra la sesion del usuario y redirige a la vista de inicio de sesion.
+    """
     session.clear()
     return redirect(url_for('auth.login'))
 
