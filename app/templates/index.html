@@ -11,10 +11,10 @@
   <input type="submit" value="Predict">
 </form>
 <!-- Variable resultado de la predicción -->
-{% if resultado %}
+{% if resultado['valor'] %}
   <!-- Variable resultado de la predicción -->
-  <p>Cierre de acción de mañana</p>
-  {{ resultado['resultado'][0][0] }}
+  <p>Cierre de {{ resultado['stock'] }} mañana:</p>
+  {{ resultado['valor'] }}
 {% endif %}
 <!-- TradingView Widget BEGIN -->
 <div class="tradingview-widget-container">
@@ -26,7 +26,7 @@
     {
     "width": "100%",
     "height": "600",
-    "symbol": "TSLA",
+    "symbol": "{{ resultado['stock'] }}",
     "interval": "D",
     "timezone": "Etc/UTC",
     "theme": "dark",

@@ -10,12 +10,18 @@ from app.prediction.views import create_prediction
 @main_bp.route('/', methods=['POST', 'GET'])
 @login_required
 def index():
-    resultado = None
+    resultado = {
+            'stock': 'AAPL',
+            'valor': None
+        }
     if request.method == 'POST':
         # Obtengo el symbolo de la accion
         stock = request.form['stock']
+        resultado['stock'] = stock
         # Creo la prediccion
-        resultado = create_prediction(symbol=stock)
+        prediction = create_prediction(symbol=stock)
+        resultado['valor'] = prediction['resultado'][0][0]        
+
     stocks = obtener_acciones()
     return render_template('index.html', resultado=resultado, stocks=stocks)
 
