@@ -18,10 +18,10 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 @prediction_bp.route('/create', methods=['GET', 'POST'])
 @login_required
-def create_prediction():
+def create_prediction(symbol="AAPL"):
     # La acción se debe capturar del HTML seleccionado por el usuario
-    modelFit, model = getModel("AAPL")
-    predictionValue = prediction("AAPL", model)
+    modelFit, model = getModel(symbol)
+    predictionValue = prediction(symbol, model)
     resultado = {'resultado': predictionValue}
     return resultado
 

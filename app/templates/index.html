@@ -1,9 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<form method="POST" action=".">
+  <label for="stock">Selecciona una acción:</label>
+  <select id="stock" name="stock">
+      {% for stock in stocks %}
+          <option value="{{ stock['symbol'] }}">{{ stock['symbol'] }}: {{ stock['name'] }}</option>
+      {% endfor %}
+  </select>
+  <input type="submit" value="Predict">
+</form>
 <!-- Variable resultado de la predicción -->
-{{ resultado['resultado'] }}
-
+{% if resultado %}
+  <!-- Variable resultado de la predicción -->
+  <p>Cierre de acción de mañana</p>
+  {{ resultado['resultado'][0][0] }}
+{% endif %}
 <!-- TradingView Widget BEGIN -->
 <div class="tradingview-widget-container">
     <div id="tradingview_a6df5"></div>
