@@ -2,10 +2,11 @@
 form {
     max-width: 300px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 2em;
     border: 1px solid #ccc;
     background-color: #f9f9f9;
     border-radius: 5px;
+    margin-bottom: 3em;
 }
 
 /* Estilo para las etiquetas */
@@ -18,7 +19,8 @@ label {
 input {
     width: 90%;
     padding: 10px;
-    margin-bottom: 15px;
+    margin-top: 1em;
+    margin-bottom: 1em;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -27,6 +29,7 @@ input {
 input[type="submit"] {
     background-color: #007BFF;
     color: #fff;
+    width: 100%;
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
