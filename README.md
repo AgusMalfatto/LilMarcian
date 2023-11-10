@@ -26,7 +26,7 @@ python -m venv env
 
 * Agregar dependencias instaladas en el env
 ```Console
-pip freeze > requirements.txt
+pip install -r requirements.txt
 ```
 
 * Inicializar la base de datos (Si aparece por consola la base de datos fue inicializada esta todo ok)
