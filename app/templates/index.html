@@ -17,8 +17,15 @@
 <!-- Variable resultado de la predicción -->
 {% if resultado['valor'] %}
   <!-- Variable resultado de la predicción -->
-  <p>Cierre de {{ resultado['stock'] }} mañana:</p>
-  {{ resultado['valor'] }}
+  <div class="resultado">
+    <p>Symbol: {{ resultado['stock'] }}</p>
+    {% for stock in stocks %}
+      {% if stock['symbol'] == resultado['stock'] %}
+        <p>Name: {{ stock['name'] }}</p>
+      {% endif %}
+    {% endfor %}
+    <p>Closing price tomorrow: {{ resultado['valor'] }}</p>
+  </div>
 {% endif %}
 <!-- TradingView Widget BEGIN -->
 <div class="tradingview-widget-container">

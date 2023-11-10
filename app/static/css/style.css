@@ -118,3 +118,29 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+.resultado {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .resultado p {
+    margin: 10px 0;
+    font-size: 16px;
+  }
+
+  .resultado p:first-child {
+    font-weight: bold;
+  }
+
+  .resultado p:nth-child(2) {
+    color: #555;
+  }
+
+  .resultado p:last-child {
+    color: #007bff;
+  }
