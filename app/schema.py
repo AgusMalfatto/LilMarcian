@@ -17,9 +17,10 @@ instructions = [
     """
         CREATE TABLE stocks (
             symbol VARCHAR(6) PRIMARY KEY,
-            name VARCHAR(30) NOT NULL 
+            name VARCHAR(50) NOT NULL 
         );
     """,
+    # Modificar la tabla agregar: 
     """
         CREATE TABLE his_predictions (
             id INT PRIMARY KEY AUTO_INCREMENT,
@@ -32,6 +33,24 @@ instructions = [
             FOREIGN KEY (id_user) REFERENCES users(id),
             FOREIGN KEY (symbol) REFERENCES stocks(symbol)
         );
+    """,
     """
+        INSERT INTO stocks (symbol, name) VALUES
+            ('GOOGL', 'Alphabet Inc.'),
+            ('AMZN', 'Amazon.com Inc.'),
+            ('AAPL', 'Apple Inc.'),
+            ('MSFT', 'Microsoft Corporation'),
+            ('TSLA', 'Tesla, Inc.'),
+            ('JPM', 'JPMorgan Chase & Co.'),
+            ('V', 'Visa Inc.'),
+            ('NVDA', 'NVIDIA Corporation'),
+            ('PYPL', 'PayPal Holdings, Inc.'),
+            ('DIS', 'The Walt Disney Company');
+    """,
+    """
+        INSERT INTO users (username, email, password, nombre, apellido) VALUES
+            ('user', 'user@gmail.com', 'scrypt:32768:8:1$dlRVcZNvwWPLgAO2$d7a47c0d6787b0d55b4ad375b31e4e63e7f903403ce19d3ab668de8ab75fc32478901645c73e70c27f0a642060389972c1b183dabe8f1a5bbe6e9d8621a94eab', 'user', 'user')
+    """
+
 ]
 

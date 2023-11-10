@@ -14,24 +14,28 @@ def index():
             'stock': 'AAPL',
             'valor': None
         }
+        
+    stocks = get_stocks()
+
     if request.method == 'POST':
         # Obtengo el symbolo de la accion
         stock = request.form['stock']
         resultado['stock'] = stock
         # Creo la prediccion
         prediction = create_prediction(symbol=stock)
-        resultado['valor'] = prediction['resultado'][0][0]        
+        resultado['valor'] = round(prediction['resultado'][0][0], 2)
+        return render_template('index.html', resultado=resultado, stocks=stocks)
 
-    stocks = obtener_acciones()
-    return render_template('index.html', resultado=resultado, stocks=stocks)
+    return render_template('index.html', resultado=resultado, stocks=stocks)        
+
 
 
 
 @main_bp.route('/acciones', methods=['GET'])
-def obtener_acciones():
-    stocks = [
-        {'symbol': 'AAPL', 'name': 'Apple Inc.'},
-        {'symbol': 'GOOGL', 'name': 'Alphabet Inc.'},
-    ]
+def get_stocks():
+    db, c = get_db()
+    c.execute('SELECT symbol, name FROM stocks')
+    stocks = c.fetchall()
+    
     return stocks
 
