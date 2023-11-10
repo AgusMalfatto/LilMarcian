@@ -1,11 +1,10 @@
-from flask import (
-    flash, g, redirect, render_template, request, url_for, jsonify
-)
-from . import prediction_bp
-from werkzeug.exceptions import abort
-from app.auth.views import login_required
-from app.db import get_db
-import json
+""" 
+ESTA HOJA POSTERIORMENTE SE ELIMINA.
+ESTÁ HECHA PARA EVALUAR EL MODELO SIN INTERFAZ GRÁFICA.
+EL MODELO LUEGO DE LAS PRUEBAS SE PASA EN LIMPIO A: "app/prediction/views.py".
+"""
+
+
 
 import yfinance as yf
 import pandas as pd
@@ -15,16 +14,6 @@ import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
-
-@prediction_bp.route('/create', methods=['GET', 'POST'])
-@login_required
-def create_prediction():
-    # La acción se debe capturar del HTML seleccionado por el usuario
-    modelFit, model = getModel("AAPL")
-    predictionValue = prediction("AAPL", model)
-    resultado = {'resultado': predictionValue}
-    return resultado
-
 
 def getModel(stock, begin='2023-09-01'):
     # Consulto los datos de la acción
@@ -101,7 +90,7 @@ def prediction(stock, model):
     # Obtener los datos de hoy (o hasta el último día disponible)
     today = pd.to_datetime('today').strftime('%Y-%m-%d')
 
-    datos_hasta_hoy = yf.download(stock, start='2023-09-01', end=today)
+    datos_hasta_hoy = yf.download("AAPL", start='2023-09-01', end=today)
     datos_hasta_hoy.reset_index(inplace=True)
 
     # Extraer el último dato de cierre
@@ -114,3 +103,9 @@ def prediction(stock, model):
     prediction_tomorrow = model.predict(data) # Retorna un numpyArray
 
     return prediction_tomorrow
+
+
+resultado, model = getModel("AAPL")
+predictionValue = prediction("AAPL", model)
+print(resultado['Close'])
+print(predictionValue)

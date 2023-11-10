@@ -33,6 +33,13 @@ input[type="submit"] {
     cursor: pointer;
 }
 
+#politica_privacidad {
+    max-height: 200px; 
+    overflow: auto; 
+    border: 1px solid #ccc; 
+    padding: 10px;
+}
+
 /* Estilo para el encabezado */
 h1 {
     text-align: center;
