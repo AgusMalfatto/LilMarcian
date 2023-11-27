@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import (
     flash, g, redirect, render_template, request, url_for, jsonify
 )
@@ -23,6 +24,27 @@ def create_prediction(symbol="AAPL"):
     modelFit, model = getModel(symbol)
     predictionValue = prediction(symbol, model)
     resultado = {'resultado': predictionValue}
+
+        # Obtener el precio actual utilizando yfinance
+    stock_data = yf.Ticker(symbol)
+    current_price = stock_data.history(period='1d')['Close'].iloc[-1]
+
+    # Definir las variables datetime, precio_actual y precio_prediccion
+    now = datetime.now()
+    date_created = now.strftime('%Y-%m-%d %H:%M:%S')
+    date_prediction = date_created  # Puedes cambiar esto según la lógica de tu aplicación
+    precio_actual = current_price
+
+    # Asegúrate de que predictionValue tiene la estructura esperada antes de intentar acceder a sus elementos.
+    print(predictionValue)  # Agrega esta línea para ver el contenido de predictionValue
+    precio_prediccion = predictionValue[0][0]
+    # Después de obtener la predicción, guárdala en la base de datos
+    db, c = get_db()
+    c.execute(
+        'INSERT INTO his_predictions (id_user, symbol, date_created, date_prediction, price_created, price_prediction) VALUES (%s, %s, %s, %s, %s, %s)',
+        (g.user['id'], symbol, date_created, date_prediction, precio_actual, precio_prediccion)
+    )
+    db.commit()
     return resultado
 
 
