@@ -29,38 +29,38 @@ instructions = [
             date_created TIMESTAMP NOT NULL,
             price_created FLOAT NOT NULL, 
             
-            price_pred_open_30_1 FLOAT NOT NULL,
-            price_pred_close_30_1 FLOAT NOT NULL,
-            price_pred_max_30_1 FLOAT NOT NULL,
-            price_pred_min_30_1 FLOAT NOT NULL,
+            price_pred_open_30_1 FLOAT,
+            price_pred_close_30_1 FLOAT,
+            price_pred_max_30_1 FLOAT,
+            price_pred_min_30_1 FLOAT,
 
-            price_pred_open_30_3 FLOAT NOT NULL,
-            price_pred_close_30_3 FLOAT NOT NULL,
-            price_pred_max_30_3 FLOAT NOT NULL,
-            price_pred_min_30_3 FLOAT NOT NULL,
-
-
-            price_pred_open_30_7 FLOAT NOT NULL,
-            price_pred_close_30_7 FLOAT NOT NULL,
-            price_pred_max_30_7 FLOAT NOT NULL,
-            price_pred_min_30_7 FLOAT NOT NULL,
+            price_pred_open_30_3 FLOAT,
+            price_pred_close_30_3 FLOAT,
+            price_pred_max_30_3 FLOAT,
+            price_pred_min_30_3 FLOAT,
 
 
-            price_pred_open_07_1 FLOAT NOT NULL,
-            price_pred_close_07_1 FLOAT NOT NULL,
-            price_pred_max_07_1 FLOAT NOT NULL,
-            price_pred_min_07_1 FLOAT NOT NULL,
-
-            price_pred_open_07_3 FLOAT NOT NULL,
-            price_pred_close_07_3 FLOAT NOT NULL,
-            price_pred_max_07_3 FLOAT NOT NULL,
-            price_pred_min_07_3 FLOAT NOT NULL,
+            price_pred_open_30_7 FLOAT,
+            price_pred_close_30_7 FLOAT,
+            price_pred_max_30_7 FLOAT,
+            price_pred_min_30_7 FLOAT,
 
 
-            price_pred_open_07_7 FLOAT NOT NULL,
-            price_pred_close_07_7 FLOAT NOT NULL,
-            price_pred_max_07_7 FLOAT NOT NULL,
-            price_pred_min_07_7 FLOAT NOT NULL,
+            price_pred_open_07_1 FLOAT,
+            price_pred_close_07_1 FLOAT,
+            price_pred_max_07_1 FLOAT,
+            price_pred_min_07_1 FLOAT,
+
+            price_pred_open_07_3 FLOAT,
+            price_pred_close_07_3 FLOAT,
+            price_pred_max_07_3 FLOAT,
+            price_pred_min_07_3 FLOAT,
+
+
+            price_pred_open_07_7 FLOAT,
+            price_pred_close_07_7 FLOAT,
+            price_pred_max_07_7 FLOAT,
+            price_pred_min_07_7 FLOAT,
 
             FOREIGN KEY (id_user) REFERENCES users(id),
             FOREIGN KEY (symbol) REFERENCES stocks(symbol)
