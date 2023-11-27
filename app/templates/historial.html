@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1 style="text-align: center;">Historial</h1>
+  <table style="border-collapse: collapse; width: 750px; margin: 20px auto; position: relative;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid black; padding: 8px; text-align: center; background-color: #f2f2f2; width: 250px;">Accion</th>
+        <th style="border: 1px solid black; padding: 8px; text-align: center; background-color: #f2f2f2; width: 250px;">Fecha Predicción</th>
+        <th style="border: 1px solid black; padding: 8px; text-align: center; background-color: #f2f2f2; width: 250px;">Precio Predicción</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for prediction in predictions %}
+        <tr>
+          <td style="border: 1px solid black; padding: 8px; text-align: center; width: 250px;">{{ prediction['symbol'] }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: center; width: 250px;">{{ prediction['date_prediction'] }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: center; width: 250px;">{{ prediction['price_prediction'] }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

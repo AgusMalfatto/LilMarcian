@@ -39,3 +39,14 @@ def get_stocks():
     
     return stocks
 
+@main_bp.route('/historial')
+def historial():
+    # Obtén las predicciones del usuario desde la base de datos
+    db, c = get_db()
+    c.execute(
+        'SELECT symbol, date_prediction, price_prediction FROM his_predictions WHERE id_user = %s',
+        (g.user['id'],)
+    )
+    predictions = c.fetchall()
+
+    return render_template('historial.html', predictions=predictions)

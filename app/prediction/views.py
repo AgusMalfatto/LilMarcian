@@ -26,7 +26,7 @@ def create_prediction(symbol="AAPL"):
     return resultado
 
 
-def getModel(stock, begin='2023-09-01'):
+def getModel(stock, begin='2023-10-01'):
     # Consulto los datos de la acción
     data = yf.download(stock, start=begin)
     df = pd.DataFrame(data)
