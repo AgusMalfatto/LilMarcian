@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import (
     flash, g, redirect, render_template, request, url_for, jsonify
 )
@@ -20,35 +20,52 @@ from sklearn.metrics import mean_squared_error, r2_score
 @prediction_bp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create_prediction(symbol="AAPL"):
-    # La acción se debe capturar del HTML seleccionado por el usuario
-    modelFit, model = getModel(symbol)
-    predictionValue = prediction(symbol, model)
-    resultado = {'resultado': predictionValue}
+    now = datetime.now()
 
-        # Obtener el precio actual utilizando yfinance
+    # Calcular la fecha 30 días antes de la fecha actual
+    date_30 = (now - timedelta(days=30)).strftime('%Y-%m-%d')
+    # Calcular la fecha 7 días antes de la fecha actual
+    date_7 = (now - timedelta(days=7)).strftime('%Y-%m-%d')
+
+    # Predicción con 30 días de muestra
+    modelFit, model_Close = getModel(symbol, 'Close', date_30)
+    modelFit, model_Open = getModel(symbol, 'Open', date_30)
+    pred_Value_Close = prediction(symbol, model_Close, 'Close', date_30) 
+    pred_Value_Open = prediction(symbol, model_Open, 'Open', date_30)
+
+    # Almaceno los resultados en un diccionario
+    resultado = {
+            'result_Close_30': round(pred_Value_Close[0][0], 2),
+            'result_Open_30': round(pred_Value_Open[0][0], 2)
+        }
+
+    # Predicción con 7 días de muestra
+    modelFit, model_Close = getModel(symbol, 'Close', date_7)
+    modelFit, model_Open = getModel(symbol, 'Open', date_7)
+    pred_Value_Close = prediction(symbol, model_Close, 'Close', date_7)
+    pred_Value_Open = prediction(symbol, model_Open, 'Open', date_7)
+    resultado['result_Close_7'] = round(pred_Value_Close[0][0], 2)
+    resultado['result_Open_7'] = round(pred_Value_Open[0][0], 2)
+    
+    # Obtener el precio actual utilizando yfinance
     stock_data = yf.Ticker(symbol)
     current_price = stock_data.history(period='1d')['Close'].iloc[-1]
 
     # Definir las variables datetime, precio_actual y precio_prediccion
     now = datetime.now()
     date_created = now.strftime('%Y-%m-%d %H:%M:%S')
-    date_prediction = date_created  # Puedes cambiar esto según la lógica de tu aplicación
-    precio_actual = current_price
 
-    # Asegúrate de que predictionValue tiene la estructura esperada antes de intentar acceder a sus elementos.
-    print(predictionValue)  # Agrega esta línea para ver el contenido de predictionValue
-    precio_prediccion = predictionValue[0][0]
     # Después de obtener la predicción, guárdala en la base de datos
     db, c = get_db()
     c.execute(
-        'INSERT INTO his_predictions (id_user, symbol, date_created, date_prediction, price_created, price_prediction) VALUES (%s, %s, %s, %s, %s, %s)',
-        (g.user['id'], symbol, date_created, date_prediction, precio_actual, precio_prediccion)
+        'INSERT INTO his_predictions (id_user, symbol, date_created, price_pred_open_30_1, price_pred_close_30_1, price_pred_open_07_1, price_pred_close_07_1) VALUES (%s, %s, %s, %s, %s, %s, %s)',
+        (g.user['id'], symbol, date_created, resultado['result_Open_30'], resultado['result_Close_30'], resultado['result_Open_7'], resultado['result_Close_7'])
     )
     db.commit()
     return resultado
 
 
-def getModel(stock, begin='2023-10-01'):
+def getModel(stock, metric, begin='2023-11-01'):
     # Consulto los datos de la acción
     data = yf.download(stock, start=begin)
     df = pd.DataFrame(data)
@@ -60,8 +77,8 @@ def getModel(stock, begin='2023-10-01'):
     """ Extraer datos """
 
     # Extraigo los datos de cierre de la acciones para los datos de entrada (data_in) y salida (data_out).
-    data_in = df[['Close']]
-    data_out = df[['Close']]
+    data_in = df[[metric]]
+    data_out = df[[metric]]
 
     # Los datos de entrada serán los cierres de la acciones desde el primer dato hasta el anteúltimo.
     data_in_subset = data_in.iloc[:len(data_in)-1]
@@ -96,7 +113,7 @@ def getModel(stock, begin='2023-10-01'):
 
     # Crear un DataFrame con los últimos 40 valores reales
     cant_dataTest = len(y_pred)
-    df_test = df.iloc[-cant_dataTest:][['Date', 'Close']].copy()
+    df_test = df.iloc[-cant_dataTest:][['Date', metric]].copy()
 
     # Crear un DataFrame para las predicciones
     prediction = pd.DataFrame(y_pred, columns=['Predictions'])
@@ -108,9 +125,9 @@ def getModel(stock, begin='2023-10-01'):
     df_test.reset_index(drop=True, inplace=True)
 
     # Calculo la diferencia entre los datos de cierre y predicciones
-    df_test['Diference'] = df_test['Close'] - df_test['Prediction']
+    df_test['Diference'] = df_test[metric] - df_test['Prediction']
 
-    df_test['Porcentaje'] = df_test['Diference'] * 100 / df_test['Close']
+    df_test['Porcentaje'] = df_test['Diference'] * 100 / df_test[metric]
     df_test['Porcentaje'] = df_test['Porcentaje'].apply(lambda x: -x if x < 0 else x)
 
     dict_from_df = df_test.to_dict(orient='list')
@@ -119,18 +136,18 @@ def getModel(stock, begin='2023-10-01'):
     return (dict_from_df, model)
 
 
-def prediction(stock, model):
+def prediction(stock, model, metric, date_begin):
     # Obtener los datos de hoy (o hasta el último día disponible)
     today = pd.to_datetime('today').strftime('%Y-%m-%d')
 
-    datos_hasta_hoy = yf.download(stock, start='2023-09-01', end=today)
+    datos_hasta_hoy = yf.download(stock, start=date_begin, end=today)
     datos_hasta_hoy.reset_index(inplace=True)
 
     # Extraer el último dato de cierre
-    close_today = datos_hasta_hoy['Close'].iloc[-1]
+    close_today = datos_hasta_hoy[metric].iloc[-1]
 
     # Crear un DataFrame para hacer la predicción de mañana
-    data = pd.DataFrame({'Close': [close_today]})
+    data = pd.DataFrame({metric: [close_today]})
 
     # Hacer la predicción para mañana
     prediction_tomorrow = model.predict(data) # Retorna un numpyArray

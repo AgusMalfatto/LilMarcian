@@ -27,7 +27,6 @@ instructions = [
             id_user INT NOT NULL,
             symbol VARCHAR(6) NOT NULL,
             date_created TIMESTAMP NOT NULL,
-            price_created FLOAT NOT NULL, 
             
             price_pred_open_30_1 FLOAT,
             price_pred_close_30_1 FLOAT,

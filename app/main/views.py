@@ -23,8 +23,7 @@ def index():
         resultado['stock'] = stock
         # Creo la prediccion
         prediction = create_prediction(symbol=stock)
-        resultado['valor'] = round(prediction['resultado'][0][0], 2)
-        return render_template('index.html', resultado=resultado, stocks=stocks)
+        return render_template('index.html', resultado=prediction, stocks=stocks)
 
     return render_template('index.html', resultado=resultado, stocks=stocks)        
 
