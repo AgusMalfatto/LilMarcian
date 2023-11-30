@@ -27,12 +27,12 @@
 
     <!-- Muestro los datos de las predicciones realizadas con muestras de 30 y 7 dias -->
     <h3>Muestra de 30 dias:</h3>
-    <p>Open price tomorrow: {{ resultado['valores']['price_pred_open_30_1'] }}</p>
-    <p>Closing price tomorrow: {{ resultado['valores']['price_pred_close_30_1'] }}</p>
+    <p {% if(resultado['valores']['price_created'] > resultado['valores']['price_pred_open_30_1'])%} class="baja" {% else %} class="alta" {%endif%}>Open price tomorrow: {{ resultado['valores']['price_pred_open_30_1'] }}</p>
+    <p {% if(resultado['valores']['price_created'] > resultado['valores']['price_pred_close_30_1'])%} class="baja" {% else %} class="alta" {%endif%}>Closing price tomorrow: {{ resultado['valores']['price_pred_close_30_1'] }}</p>
 
     <h3>Muestra de 7 dias:</h3>
-    <p>Open price tomorrow: {{ resultado['valores']['price_pred_open_07_1'] }}</p>
-    <p>Closing price tomorrow: {{ resultado['valores']['price_pred_close_07_1'] }}</p>
+    <p {% if(resultado['valores']['price_created'] > resultado['valores']['price_pred_open_07_1'])%} class="baja" {% else %} class="alta" {%endif%}>Open price tomorrow: {{ resultado['valores']['price_pred_open_07_1'] }}</p>
+    <p {% if(resultado['valores']['price_created'] > resultado['valores']['price_pred_close_07_1'])%} class="baja" {% else %} class="alta" {%endif%}>Closing price tomorrow: {{ resultado['valores']['price_pred_close_07_1'] }}</p>
 
     
 

@@ -119,6 +119,14 @@ a:hover {
     text-decoration: underline;
 }
 
+.baja {
+    color: #FF5757;
+}
+
+.alta {
+    color: #00FF00;
+}
+
 .resultado {
     background-color: #f8f8f8;
     border: 1px solid #ddd;
@@ -141,6 +149,3 @@ a:hover {
     color: #555;
   }
 
-  .resultado p:last-child {
-    color: #007bff;
-  }
