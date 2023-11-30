@@ -44,6 +44,7 @@ def create_prediction(symbol="AAPL"):
     modelFit, model_Open = getModel(symbol, 'Open', date_7)
     pred_Value_Close = prediction(symbol, model_Close, 'Close', date_7)
     pred_Value_Open = prediction(symbol, model_Open, 'Open', date_7)
+
     resultado['price_pred_close_07_1'] = round(pred_Value_Close[0][0], 2)
     resultado['price_pred_open_07_1'] = round(pred_Value_Open[0][0], 2)
     
@@ -62,7 +63,7 @@ def create_prediction(symbol="AAPL"):
     db, c = get_db()
     c.execute(
         'INSERT INTO his_predictions (id_user, symbol, date_created, price_pred_open_30_1, price_pred_close_30_1, price_pred_open_07_1, price_pred_close_07_1) VALUES (%s, %s, %s, %s, %s, %s, %s)',
-        (g.user['id'], symbol, date_created, resultado['result_Open_30'], resultado['result_Close_30'], resultado['result_Open_7'], resultado['result_Close_7'])
+        (g.user['id'], symbol, date_created, resultado['price_pred_open_30_1'], resultado['price_pred_close_30_1'], resultado['price_pred_open_07_1'], resultado['price_pred_close_07_1'])
     )
     db.commit()
     return resultado

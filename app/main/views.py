@@ -12,7 +12,7 @@ from app.prediction.views import create_prediction
 def index():
     resultado = {
             'stock': 'AAPL',
-            'valor': None
+            'valores': None
         }
         
     stocks = get_stocks()
@@ -23,7 +23,8 @@ def index():
         resultado['stock'] = stock
         # Creo la prediccion
         prediction = create_prediction(symbol=stock)
-        return render_template('index.html', resultado=prediction, stocks=stocks)
+        resultado['valores'] = prediction
+        return render_template('index.html', resultado=resultado, stocks=stocks)
 
     return render_template('index.html', resultado=resultado, stocks=stocks)        
 
