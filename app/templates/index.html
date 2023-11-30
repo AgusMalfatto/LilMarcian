@@ -14,6 +14,7 @@
   </select>
   <input type="submit" value="Predict">
 </form>
+
 <!-- Variable resultado de la predicción -->
 {% if resultado['valores'] %}
   <!-- Variable resultado de la predicción -->
@@ -25,41 +26,59 @@
       {% endif %}
     {% endfor %}
 
-    <!-- Muestro los datos de las predicciones realizadas con muestras de 30 y 7 dias -->
-    <h3>Muestra de 30 dias:</h3>
+    <!-- Muestro los datos de las predicciones realizadas con muestras de 30 y 7 días -->
+    <h3>Muestra de 30 días:</h3>
     <p>Open price tomorrow: {{ resultado['valores']['price_pred_open_30_1'] }}</p>
     <p>Closing price tomorrow: {{ resultado['valores']['price_pred_close_30_1'] }}</p>
 
-    <h3>Muestra de 7 dias:</h3>
+    <h3>Muestra de 7 días:</h3>
     <p>Open price tomorrow: {{ resultado['valores']['price_pred_open_07_1'] }}</p>
     <p>Closing price tomorrow: {{ resultado['valores']['price_pred_close_07_1'] }}</p>
-
-    
-
   </div>
 {% endif %}
+
+<!-- Agrega jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <!-- TradingView Widget BEGIN -->
 <div class="tradingview-widget-container">
     <div id="tradingview_a6df5"></div>
     <div class="tradingview-widget-copyright"><a href="https://es.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Siga los mercados en TradingView</span></a></div>
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script type="text/javascript">
-    new TradingView.widget(
-    {
-    "width": "100%",
-    "height": "600",
-    "symbol": "{{ resultado['stock'] }}",
-    "interval": "D",
-    "timezone": "Etc/UTC",
-    "theme": "dark",
-    "style": "1",
-    "locale": "es",
-    "enable_publishing": false,
-    "allow_symbol_change": true,
-    "container_id": "tradingview_a6df5"
-  }
-    );
+      // Función para actualizar el símbolo del gráfico de TradingView
+      function updateTradingViewSymbol() {
+        var selectedStock = $('#stock').val();
+
+        // Actualiza el símbolo del gráfico de TradingView
+        var widget = new TradingView.widget({
+          "width": "100%",
+          "height": "600",
+          "symbol": selectedStock,
+          "interval": "D",
+          "timezone": "Etc/UTC",
+          "theme": "dark",
+          "style": "1",
+          "locale": "es",
+          "enable_publishing": false,
+          "allow_symbol_change": true,
+          "container_id": "tradingview_a6df5"
+        });
+
+        // Recarga el gráfico
+        widget.onChartReady(function () {
+          widget.chart().setSymbol(selectedStock);
+        });
+      }
+
+      // Maneja el evento de cambio en el select
+      $('#stock').change(function () {
+        updateTradingViewSymbol();
+      });
+
+      // Inicializa el gráfico de TradingView al cargar la página
+      updateTradingViewSymbol();
     </script>
-  </div>
-  <!-- TradingView Widget END -->
+</div>
+<!-- TradingView Widget END -->
 {% endblock %}
