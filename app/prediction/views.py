@@ -47,7 +47,7 @@ def create_prediction(symbol="AAPL"):
 
     resultado['price_pred_close_07_1'] = round(pred_Value_Close[0][0], 2)
     resultado['price_pred_open_07_1'] = round(pred_Value_Open[0][0], 2)
-    resultado['last_price'] = last_price
+    resultado['last_price'] = round(last_price, 2)
     
     for i in resultado:
         print(f"{i}: {resultado[i]}")
