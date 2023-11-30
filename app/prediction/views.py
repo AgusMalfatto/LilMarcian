@@ -35,8 +35,8 @@ def create_prediction(symbol="AAPL"):
 
     # Almaceno los resultados en un diccionario
     resultado = {
-            'result_Close_30': round(pred_Value_Close[0][0], 2),
-            'result_Open_30': round(pred_Value_Open[0][0], 2)
+            'price_pred_close_30_1': round(pred_Value_Close[0][0], 2),
+            'price_pred_open_30_1': round(pred_Value_Open[0][0], 2)
         }
 
     # Predicción con 7 días de muestra
@@ -44,9 +44,12 @@ def create_prediction(symbol="AAPL"):
     modelFit, model_Open = getModel(symbol, 'Open', date_7)
     pred_Value_Close = prediction(symbol, model_Close, 'Close', date_7)
     pred_Value_Open = prediction(symbol, model_Open, 'Open', date_7)
-    resultado['result_Close_7'] = round(pred_Value_Close[0][0], 2)
-    resultado['result_Open_7'] = round(pred_Value_Open[0][0], 2)
+    resultado['price_pred_close_07_1'] = round(pred_Value_Close[0][0], 2)
+    resultado['price_pred_open_07_1'] = round(pred_Value_Open[0][0], 2)
     
+    for i in resultado:
+        print(f"{i}: {resultado[i]}")
+
     # Obtener el precio actual utilizando yfinance
     stock_data = yf.Ticker(symbol)
     current_price = stock_data.history(period='1d')['Close'].iloc[-1]
