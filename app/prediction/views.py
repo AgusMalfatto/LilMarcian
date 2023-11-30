@@ -30,8 +30,8 @@ def create_prediction(symbol="AAPL"):
     # Predicción con 30 días de muestra
     modelFit, model_Close = getModel(symbol, 'Close', date_30)
     modelFit, model_Open = getModel(symbol, 'Open', date_30)
-    pred_Value_Close = prediction(symbol, model_Close, 'Close', date_30) 
-    pred_Value_Open = prediction(symbol, model_Open, 'Open', date_30)
+    pred_Value_Close, last_price = prediction(symbol, model_Close, 'Close', date_30) 
+    pred_Value_Open, last_price = prediction(symbol, model_Open, 'Open', date_30)
 
     # Almaceno los resultados en un diccionario
     resultado = {
@@ -42,11 +42,12 @@ def create_prediction(symbol="AAPL"):
     # Predicción con 7 días de muestra
     modelFit, model_Close = getModel(symbol, 'Close', date_7)
     modelFit, model_Open = getModel(symbol, 'Open', date_7)
-    pred_Value_Close = prediction(symbol, model_Close, 'Close', date_7)
-    pred_Value_Open = prediction(symbol, model_Open, 'Open', date_7)
+    pred_Value_Close, last_price = prediction(symbol, model_Close, 'Close', date_7)
+    pred_Value_Open, last_price = prediction(symbol, model_Open, 'Open', date_7)
 
     resultado['price_pred_close_07_1'] = round(pred_Value_Close[0][0], 2)
     resultado['price_pred_open_07_1'] = round(pred_Value_Open[0][0], 2)
+    resultado['last_price'] = last_price
     
     for i in resultado:
         print(f"{i}: {resultado[i]}")
@@ -156,4 +157,4 @@ def prediction(stock, model, metric, date_begin):
     # Hacer la predicción para mañana
     prediction_tomorrow = model.predict(data) # Retorna un numpyArray
 
-    return prediction_tomorrow
+    return (prediction_tomorrow, close_today)
