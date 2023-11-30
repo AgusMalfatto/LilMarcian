@@ -47,14 +47,13 @@ def create_prediction(symbol="AAPL"):
 
     resultado['price_pred_close_07_1'] = round(pred_Value_Close[0][0], 2)
     resultado['price_pred_open_07_1'] = round(pred_Value_Open[0][0], 2)
-    resultado['last_price'] = round(last_price, 2)
     
     for i in resultado:
         print(f"{i}: {resultado[i]}")
 
     # Obtener el precio actual utilizando yfinance
-    stock_data = yf.Ticker(symbol)
-    current_price = stock_data.history(period='1d')['Close'].iloc[-1]
+    current_price = get_last_price(symbol)
+    if current_price: resultado['price_created']=current_price
 
     # Definir las variables datetime, precio_actual y precio_prediccion
     now = datetime.now()
@@ -63,8 +62,8 @@ def create_prediction(symbol="AAPL"):
     # Después de obtener la predicción, guárdala en la base de datos
     db, c = get_db()
     c.execute(
-        'INSERT INTO his_predictions (id_user, symbol, date_created, price_pred_open_30_1, price_pred_close_30_1, price_pred_open_07_1, price_pred_close_07_1) VALUES (%s, %s, %s, %s, %s, %s, %s)',
-        (g.user['id'], symbol, date_created, resultado['price_pred_open_30_1'], resultado['price_pred_close_30_1'], resultado['price_pred_open_07_1'], resultado['price_pred_close_07_1'])
+        'INSERT INTO his_predictions (id_user, symbol, price_created, date_created, price_pred_open_30_1, price_pred_close_30_1, price_pred_open_07_1, price_pred_close_07_1) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)',
+        (g.user['id'], symbol, resultado['price_created'], date_created, resultado['price_pred_open_30_1'], resultado['price_pred_close_30_1'], resultado['price_pred_open_07_1'], resultado['price_pred_close_07_1'])
     )
     db.commit()
     return resultado
@@ -158,3 +157,13 @@ def prediction(stock, model, metric, date_begin):
     prediction_tomorrow = model.predict(data) # Retorna un numpyArray
 
     return (prediction_tomorrow, close_today)
+
+def get_last_price(symbol):
+    """
+    Funcion que obtiene el utlimo precio de una accion
+    Return float
+    """
+    stock_data = yf.Ticker(symbol)
+    stock_info=stock_data.fast_info
+    current_price = stock_info['lastPrice']
+    return current_price

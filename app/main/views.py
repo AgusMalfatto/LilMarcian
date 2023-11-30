@@ -23,6 +23,7 @@ def index():
         resultado['stock'] = stock
         # Creo la prediccion
         prediction = create_prediction(symbol=stock)
+        print('Ultimo precio de la accion', prediction['price_created'])
         resultado['valores'] = prediction
         return render_template('index.html', resultado=resultado, stocks=stocks)
 
