@@ -1,21 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1 style="text-align: center;">Historial</h1>
-  <table style="border-collapse: collapse; width: 750px; margin: 20px auto; position: relative;">
+  <h1 style="text-align: center;">Prediction History</h1>
+  <table style="border-collapse: collapse; width: 1000px; margin: 20px auto; position: relative;">
     <thead>
       <tr>
-        <th style="border: 1px solid black; padding: 8px; text-align: center; background-color: #f2f2f2; width: 250px;">Accion</th>
-        <th style="border: 1px solid black; padding: 8px; text-align: center; background-color: #f2f2f2; width: 250px;">Fecha Predicción</th>
-        <th style="border: 1px solid black; padding: 8px; text-align: center; background-color: #f2f2f2; width: 250px;">Precio Predicción</th>
+        <th style="border: 1px solid black; padding: 8px; text-align: center; background-color: #f2f2f2; width: 300px;">Symbol</th>
+        <th style="border: 1px solid black; padding: 8px; text-align: center; background-color: #f2f2f2; width: 300px;">Date Prediction created</th>
+        <th style="border: 1px solid black; padding: 8px; text-align: center; background-color: #f2f2f2; width: 300px;">Price Prediction open (30 days) </th>
+        <th style="border: 1px solid black; padding: 8px; text-align: center; background-color: #f2f2f2; width: 300px;">Price Prediction close (30 days)</th>
+        <th style="border: 1px solid black; padding: 8px; text-align: center; background-color: #f2f2f2; width: 300px;">Price Prediction open (7 days)</th>
+        <th style="border: 1px solid black; padding: 8px; text-align: center; background-color: #f2f2f2; width: 300px;">Price Prediction close (7 days)</th>
+
       </tr>
     </thead>
     <tbody>
       {% for prediction in predictions %}
         <tr>
-          <td style="border: 1px solid black; padding: 8px; text-align: center; width: 250px;">{{ prediction['symbol'] }}</td>
-          <td style="border: 1px solid black; padding: 8px; text-align: center; width: 250px;">{{ prediction['date_prediction'] }}</td>
-          <td style="border: 1px solid black; padding: 8px; text-align: center; width: 250px;">{{ prediction['price_prediction'] }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: center; width: 300px;">{{ prediction['symbol'] }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: center; width: 300px;">{{ prediction['date_created'] }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: center; width: 300px;">{{ prediction['price_pred_open_30_1'] }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: center; width: 300px;">{{ prediction['price_pred_close_30_1'] }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: center; width: 300px;">{{ prediction['price_pred_open_07_1'] }}</td>
+          <td style="border: 1px solid black; padding: 8px; text-align: center; width: 300px;">{{ prediction['price_pred_close_07_1'] }}</td>
+
         </tr>
       {% endfor %}
     </tbody>

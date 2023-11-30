@@ -15,7 +15,7 @@
   <input type="submit" value="Predict">
 </form>
 <!-- Variable resultado de la predicción -->
-{% if resultado['valor'] %}
+{% if resultado['valores'] %}
   <!-- Variable resultado de la predicción -->
   <div class="resultado">
     <p>Symbol: {{ resultado['stock'] }}</p>
@@ -24,7 +24,18 @@
         <p>Name: {{ stock['name'] }}</p>
       {% endif %}
     {% endfor %}
-    <p>Closing price tomorrow: {{ resultado['valor'] }}</p>
+
+    <!-- Muestro los datos de las predicciones realizadas con muestras de 30 y 7 dias -->
+    <h3>Muestra de 30 dias:</h3>
+    <p>Open price tomorrow: {{ resultado['valores']['price_pred_open_30_1'] }}</p>
+    <p>Closing price tomorrow: {{ resultado['valores']['price_pred_close_30_1'] }}</p>
+
+    <h3>Muestra de 7 dias:</h3>
+    <p>Open price tomorrow: {{ resultado['valores']['price_pred_open_07_1'] }}</p>
+    <p>Closing price tomorrow: {{ resultado['valores']['price_pred_close_07_1'] }}</p>
+
+    
+
   </div>
 {% endif %}
 <!-- TradingView Widget BEGIN -->
