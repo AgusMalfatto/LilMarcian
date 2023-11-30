@@ -111,7 +111,7 @@ def getModel(stock, metric, begin='2023-11-01'):
     mse = mean_squared_error(y_test, y_pred)
 
     # Calculamos el Coeficiente de Determinación
-    r2 = r2_score(y_test, y_pred)
+    #r2 = r2_score(y_test, y_pred)
 
     """ Mejora del dataframe para visualización de resultados """
 
@@ -136,7 +136,7 @@ def getModel(stock, metric, begin='2023-11-01'):
 
     dict_from_df = df_test.to_dict(orient='list')
     dict_from_df['MSE'] = mse
-    dict_from_df['R2'] = r2
+    #dict_from_df['R2'] = r2
     return (dict_from_df, model)
 
 
