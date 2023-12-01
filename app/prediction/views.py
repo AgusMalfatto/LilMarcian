@@ -1,13 +1,24 @@
+# Importa elementos necesarios de Python y Flask
 from datetime import datetime, timedelta
 from flask import (
     flash, g, redirect, render_template, request, url_for, jsonify
 )
+
+# Importa el Blueprint 'prediction_bp' del módulo actual
 from . import prediction_bp
+
 from werkzeug.exceptions import abort
+
+# Importa la función 'login_required' del módulo 'auth.views'
 from app.auth.views import login_required
+
+# Importa la función 'get_db' del módulo 'app.db'
 from app.db import get_db
+
+# Importa el módulo 'json'
 import json
 
+# Importa bibliotecas y herramientas para análisis y predicción financiera
 import yfinance as yf
 import pandas as pd
 import numpy as np
@@ -17,9 +28,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 
+# Define una ruta '/create' bajo el Blueprint 'prediction_bp' con métodos GET y POST
 @prediction_bp.route('/create', methods=['GET', 'POST'])
+# Requiere autenticación para acceder a la ruta
 @login_required
 def create_prediction(symbol="AAPL"):
+    # Obtiene la fecha actual
     now = datetime.now()
 
     # Calcular la fecha 30 días antes de la fecha actual
@@ -27,7 +41,7 @@ def create_prediction(symbol="AAPL"):
     # Calcular la fecha 7 días antes de la fecha actual
     date_7 = (now - timedelta(days=7)).strftime('%Y-%m-%d')
 
-    # Predicción con 30 días de muestra
+    # Realiza predicciones con 30 días de muestra para 'Close' y 'Open'
     modelFit, model_Close = getModel(symbol, 'Close', date_30)
     modelFit, model_Open = getModel(symbol, 'Open', date_30)
     pred_Value_Close = prediction(symbol, model_Close, 'Close', date_30) 
@@ -39,7 +53,7 @@ def create_prediction(symbol="AAPL"):
             'price_pred_open_30_1': round(pred_Value_Open[0][0], 2)
         }
 
-    # Predicción con 7 días de muestra
+    # Realiza predicciones con 7 días de muestra para 'Close' y 'Open'
     modelFit, model_Close = getModel(symbol, 'Close', date_7)
     modelFit, model_Open = getModel(symbol, 'Open', date_7)
     pred_Value_Close = prediction(symbol, model_Close, 'Close', date_7)
@@ -48,14 +62,15 @@ def create_prediction(symbol="AAPL"):
     resultado['price_pred_close_07_1'] = round(pred_Value_Close[0][0], 2)
     resultado['price_pred_open_07_1'] = round(pred_Value_Open[0][0], 2)
     
+    # Imprime los resultados
     for i in resultado:
         print(f"{i}: {resultado[i]}")
 
     # Obtener el precio actual utilizando yfinance
     current_price = get_last_price(symbol)
-    if current_price: resultado['price_created']=current_price
+    if current_price: resultado['price_created']=round(current_price,2)
 
-    # Definir las variables datetime, precio_actual y precio_prediccion
+    # Define las variables datetime, precio_actual y precio_prediccion
     now = datetime.now()
     date_created = now.strftime('%Y-%m-%d %H:%M:%S')
 
@@ -66,11 +81,14 @@ def create_prediction(symbol="AAPL"):
         (g.user['id'], symbol, resultado['price_created'], date_created, resultado['price_pred_open_30_1'], resultado['price_pred_close_30_1'], resultado['price_pred_open_07_1'], resultado['price_pred_close_07_1'])
     )
     db.commit()
+
+    # Retorna los resultados
     return resultado
 
 
+# Función que obtiene un modelo de regresión lineal y sus resultados a partir de datos históricos
 def getModel(stock, metric, begin='2023-11-01'):
-    # Consulto los datos de la acción
+    # Consulta los datos de la acción utilizando yfinance
     data = yf.download(stock, start=begin)
     df = pd.DataFrame(data)
     df.reset_index(inplace=True)
@@ -163,7 +181,15 @@ def get_last_price(symbol):
     Funcion que obtiene el utlimo precio de una accion
     Return float
     """
+
+    # Crea un objeto Ticker con el símbolo de la acción
     stock_data = yf.Ticker(symbol)
+
+    # Accede a la información rápida (fast_info) de la acción
     stock_info=stock_data.fast_info
+
+    # Obtiene el último precio de la acción desde la información rápida
     current_price = stock_info['lastPrice']
+
+    # Retorna el último precio como un valor de punto flotante (float)
     return current_price

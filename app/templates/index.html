@@ -26,6 +26,8 @@
       {% endif %}
     {% endfor %}
 
+    <p>Precio Actual: {{ resultado['valores']['price_created'] }}</p>
+
     <!-- Muestro los datos de las predicciones realizadas con muestras de 30 y 7 dias -->
     <h3>Muestra de 30 dias:</h3>
     <p {% if(resultado['valores']['price_created'] > resultado['valores']['price_pred_open_30_1'])%} class="baja" {% else %} class="alta" {%endif%}>Open price tomorrow: {{ resultado['valores']['price_pred_open_30_1'] }}</p>
