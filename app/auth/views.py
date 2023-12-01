@@ -1,3 +1,4 @@
+# Importa elementos necesarios de Flask y otros módulos
 from . import auth_bp
 
 import functools
@@ -10,7 +11,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.db import get_db
 
-
+# Define una ruta '/register' bajo el Blueprint 'auth_bp' con métodos GET y POST
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     """
@@ -20,11 +21,14 @@ def register():
         Redirige a la vista de login ('auth.login') si el registro es exitoso.
     """
     if request.method == 'POST':
+        # Obtiene datos del formulario
         username = request.form['username']
         email = request.form['email']
         password = request.form['password']
         db, c = get_db()
         error = None
+
+        # Verifica si el nombre de usuario ya está registrado
         c.execute(
             'select id from users where username = %s', (username,)
         ) 
@@ -34,8 +38,12 @@ def register():
             error = 'Password es requerido'
         elif c.fetchone() is not None:
             error = f'Usuario {username} se encuentra registrado'
+
+        # Imprime la contraseña hasheada (para depuración)
         print(generate_password_hash(password))
+
         if error is None:
+            # Inserta el nuevo usuario en la base de datos
             c.execute(
                 'insert into users (username, email, password ) values (%s, %s, %s)',
                 (username, email, generate_password_hash(password))
@@ -48,6 +56,8 @@ def register():
 
     return render_template('auth/register.html')
 
+
+# Define una ruta '/login' bajo el Blueprint 'auth_bp' con métodos GET y POST
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     """Gestiona el logeo del usuario
@@ -56,10 +66,13 @@ def login():
         En caso que el login sea exitoso returna la plantilla de index.
     """
     if request.method == 'POST':
+        # Obtiene datos del formulario
         username = request.form['username']
         password = request.form['password']
         db, c = get_db()
         error = None
+        
+        # Consulta la base de datos para verificar el usuario y la contraseña
         # Crear una funcion aparte que devuelva true o false
         c.execute(
             'select * from users where username = %s', (username,) 
@@ -72,6 +85,7 @@ def login():
             error = 'User y/o password inválido'
         
         if error is None:
+            # Limpia la sesión y establece el ID del usuario autenticado
             session.clear()
             session['user_id'] = user['id']
             return redirect(url_for('index'))
@@ -80,6 +94,7 @@ def login():
 
     return render_template('auth/login.html')
 
+# Registra una función para ejecutarse antes de cada solicitud a la aplicación
 @auth_bp.before_app_request
 def load_logged_in_user():
     """
@@ -96,6 +111,8 @@ def load_logged_in_user():
         )
         g.user = c.fetchone()
 
+
+# Define una función decoradora que requiere autenticación para acceder a una vista específica
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
@@ -113,7 +130,8 @@ def login_required(view):
         return view(**kwargs)
     
     return wrapped_view
-    
+
+# Define una ruta '/logout' bajo el Blueprint 'auth_bp'
 @auth_bp.route('/logout')
 def logout():
     """
@@ -122,7 +140,7 @@ def logout():
     session.clear()
     return redirect(url_for('auth.login'))
 
-
+# Define una ruta '/edit_profile' bajo el Blueprint 'auth_bp' con métodos GET y POST, requiere autenticación
 @auth_bp.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
