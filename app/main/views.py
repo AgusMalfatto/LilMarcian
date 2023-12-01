@@ -45,7 +45,7 @@ def historial():
     # Obtén las predicciones del usuario desde la base de datos
     db, c = get_db()
     c.execute(
-        'SELECT symbol, date_created, price_pred_open_30_1, price_pred_close_30_1, price_pred_open_07_1, price_pred_close_07_1 FROM his_predictions WHERE id_user = %s',
+        'SELECT symbol, date_created, price_created, price_pred_open_30_1, price_pred_close_30_1, price_pred_open_07_1, price_pred_close_07_1 FROM his_predictions WHERE id_user = %s ORDER BY date_created DESC;',
         (g.user['id'],)
     )
     predictions = c.fetchall()

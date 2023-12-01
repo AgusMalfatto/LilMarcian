@@ -1,164 +1,197 @@
 /* Estilo para el cuerpo del formulario */
 form {
-    max-width: 300px;
-    margin: 0 auto;
-    padding: 2em;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    margin-bottom: 3em;
+  max-width: 300px;
+  margin: 0 auto;
+  padding: 2em;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  margin-bottom: 3em;
 }
 
 /* Estilo para las etiquetas */
 label {
-    display: block;
-    margin-bottom: 5px;
+  display: block;
+  margin-bottom: 5px;
 }
 
 /* Estilo para los campos de entrada */
 input {
-    width: 90%;
-    padding: 10px;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  width: 90%;
+  padding: 10px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 /* Estilo para el botón de envío */
 input[type="submit"] {
-    background-color: #007BFF;
-    color: #fff;
-    width: 100%;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
 }
 
 #politica_privacidad {
-    max-height: 200px; 
-    overflow: auto; 
-    border: 1px solid #ccc; 
-    padding: 10px;
+  max-height: 200px;
+  overflow: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
 }
 
 /* Estilo para el encabezado */
 h1 {
-    text-align: center;
-    margin: 20px 0;
+  text-align: center;
+  margin: 20px 0;
 }
-
 
 /* Estilo general del cuerpo */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
 }
 
 /* Estilo para la barra de navegación */
 nav {
-    background-color: #007BFF;
-    color: #fff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
 }
 
 nav h1 {
-    margin: 0;
-    font-size: 24px;
+  margin: 0;
+  font-size: 24px;
 }
 
 nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    gap: 20px;
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
 }
 
 nav ul li {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 nav a {
-    text-decoration: none;
-    color: #fff;
-    transition: color 0.3s;
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.3s;
 }
 
 nav a:hover {
-    color: #f0f0f0;
+  color: #f0f0f0;
 }
 
 /* Estilo para el contenido principal */
 .content {
-    margin: 20px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Estilo para el encabezado */
 header {
-    text-align: center;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 /* Estilo para los enlaces en el contenido */
 a {
-    text-decoration: none;
-    color: #007BFF;
+  text-decoration: none;
+  color: #007bff;
 }
 
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .baja {
-    color: #FF5757;
+  color: #ff5757;
 }
 
 .alta {
-    color: #00FF00;
+  color: #00ff00;
 }
 
 .resultado {
-    background-color: #f8f8f8;
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
+  background-color: #f8f8f8;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  .resultado p {
-    margin: 10px 0;
-    font-size: 16px;
-  }
+.resultado p {
+  margin: 10px 0;
+  font-size: 16px;
+}
 
-  .resultado p:first-child {
-    font-weight: bold;
-  }
+.resultado p:first-child {
+  font-weight: bold;
+}
 
-  .resultado p:nth-child(2) {
-    color: #555;
-  }
-
+.resultado p:nth-child(2) {
+  color: #555;
+}
 
 /* Estilo del formulario de modificacion de usuario */
 
 /* Contenedor de botones de modificar y reset */
 .form-buttons {
-    display: flex;
-} 
+  display: flex;
+}
 
 /* Botones de modificar y reset */
-#modify-data, #reset-data {
-    margin: 2%;
-    width: 50%;
+#modify-data,
+#reset-data {
+  margin: 2%;
+  width: 50%;
+}
+
+
+body {
+  font-family: "Arial", sans-serif;
+}
+
+/* Estilos para la tala */
+.table-container {
+  margin: 20px auto;
+  width: 80%;
+  overflow-x: auto; 
+}
+
+#his_pred_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  border-radius: 35px;
+}
+
+#his_pred_table th,
+#his_pred_table td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+#his_pred_table th {
+  background-color: #f2f2f2;
+}
+
+#his_pred_table tr:hover {
+  background-color: #f5f5f5;
 }
