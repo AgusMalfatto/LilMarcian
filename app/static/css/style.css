@@ -149,3 +149,16 @@ a:hover {
     color: #555;
   }
 
+
+/* Estilo del formulario de modificacion de usuario */
+
+/* Contenedor de botones de modificar y reset */
+.form-buttons {
+    display: flex;
+} 
+
+/* Botones de modificar y reset */
+#modify-data, #reset-data {
+    margin: 2%;
+    width: 50%;
+}
