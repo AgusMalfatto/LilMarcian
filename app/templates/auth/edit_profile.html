@@ -1,0 +1,94 @@
+<!-- auth/edit_profile.html -->
+{% extends 'base.html' %}
+{% block content %}
+<h1 style="text-align: center;">Modify Profile Data</h1>
+<form id="edit-profile-form" method="post">
+  <label for="username">Username</label>
+  <input name="username" id="username" required>
+
+  <label for="password">Password</label>
+  <input type="password" name="password" id="password" required>
+
+  <div class="form-buttons">
+    <input id="modify-data" type="button" value="Modify Data" class="btn btn-success">
+    <input id="reset-data" type="button" value="Reset" class="btn btn-warning"> 
+  </div>
+  
+</form>
+<script>
+  const modifyDataButton = document.getElementById("modify-data");
+
+
+  var form = document.getElementById("edit-profile-form");
+
+  var btnModify = document.getElementById("modify-data");
+  var btnReset = document.getElementById("reset-data");
+
+  var username = document.getElementById("username");
+  var password = document.getElementById("password");
+
+  btnModify.disabled = true;
+  btnReset.disabled = true;
+
+
+  btnReset.onclick = function () {
+        
+        username.value = "";
+        password.value = "";
+        
+        btnReset.disabled = true;
+        btnModify.disabled = true;
+    };
+
+  form.onkeyup = function () {
+
+    if (username.value !== "" || password.value !== "" ) {
+            btnReset.disabled = false;
+        } else {
+            btnReset.disabled = true;
+        }
+
+    if (username.value !== "" && password.value !== "") {
+      btnModify.disabled = false;
+
+    } else {
+      btnModify.disabled = true;
+
+    }
+  };
+
+
+  modifyDataButton.addEventListener("click", function () {
+    var confirmation = confirm("Are you sure you want to modify your user and/or password?");
+
+    if (confirmation) {
+      // Obtener datos del formulario
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      // Crear cadena de consulta con datos del formulario
+      const formData = new URLSearchParams();
+      formData.append("username", username);
+      formData.append("password", password);
+
+      // Realizar solicitud AJAX
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "/auth/edit_profile", true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            alert('User data updated successfully');
+          } else {
+            console.error('Error:', xhr.status, xhr.statusText);
+          }
+        }
+      };
+
+      // Enviar datos como cadena de consulta
+      xhr.send(formData);
+    }
+  });
+</script>
+{% endblock %}

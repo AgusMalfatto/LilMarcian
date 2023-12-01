@@ -122,3 +122,30 @@ def logout():
     session.clear()
     return redirect(url_for('auth.login'))
 
+
+@auth_bp.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    if request.method == 'POST':
+        # Obtener datos del formulario
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        print(f"Received data: username={username}, password={password}")
+
+        # Validar y actualizar datos del usuario
+        if username and password:
+            # Realizar la actualización en la base de datos
+            db, c = get_db()
+            c.execute(
+                'UPDATE users SET username = %s, password = %s WHERE id = %s',
+                (username, generate_password_hash(password), g.user['id'])
+            )
+            db.commit()
+
+            flash('User data updated successfully', 'success')
+            return redirect(url_for('auth.edit_profile'))
+
+        flash('Invalid data. Both username and password are required', 'error')
+
+    return render_template('auth/edit_profile.html')
