@@ -1,9 +1,5 @@
 # LilMarcian
 
-## Ubicación de la página
-
-http://lilmarcian.pythonanywhere.com/
-
 ## Instalación
 
 ### Requisitos:
